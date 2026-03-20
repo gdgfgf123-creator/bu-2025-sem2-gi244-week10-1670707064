@@ -77,8 +77,9 @@ public class PlayerController : MonoBehaviour
             {
 
                 HP--;
-                playerAudio.PlayOneShot(crashSfx);
                 explosionParticle.Play();
+                dirtParticle.Stop();
+                playerAudio.PlayOneShot(crashSfx);
             }
             if (HP == 0)
             {
