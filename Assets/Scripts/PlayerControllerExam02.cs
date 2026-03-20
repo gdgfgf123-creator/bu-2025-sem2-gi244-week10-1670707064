@@ -1,18 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerExam02 : MonoBehaviour
 {
     public float jumpForce;
     public float gravityModifier;
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtParticle;
+
     public AudioClip jumpSfx;
     public AudioClip crashSfx;
-    public int HP;
+
     private Rigidbody rb;
     private InputAction jumpAction;
-    private InputAction DashAction;
     [SerializeField]private bool isOnGround = true;
     [SerializeField]private bool jump = true;
     private Animator playerAnim;
@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
-    
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
         Physics.gravity *= gravityModifier;
 
         jumpAction = InputSystem.actions.FindAction("Jump");
-        DashAction = InputSystem.actions.FindAction("Dash");
+
         gameOver = false;
     }
 
@@ -57,10 +56,6 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             playerAudio.PlayOneShot(jumpSfx);
         }
-        if (DashAction.triggered)
-        {
-            
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -73,23 +68,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
-            if (HP != 0)
-            {
-
-                HP--;
-                playerAudio.PlayOneShot(crashSfx);
-                explosionParticle.Play();
-            }
-            if (HP == 0)
-            {
-                Debug.Log("Game Over!");
-                gameOver = true;
-                playerAnim.SetBool("Death_b", true);
-                playerAnim.SetInteger("DeathType_int", 1);
-                explosionParticle.Play();
-                dirtParticle.Stop();
-                playerAudio.PlayOneShot(crashSfx);
-            }
+            Debug.Log("Game Over!");
+            gameOver = true;
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("DeathType_int", 1);
+            explosionParticle.Play();
+            dirtParticle.Stop();
+            playerAudio.PlayOneShot(crashSfx);
         }
     }
 
